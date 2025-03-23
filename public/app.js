@@ -13,17 +13,18 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function uploadToImgur(file) {
+async function uploadCover(file) {
     return new Promise((resolve) => {
         const reader = new FileReader();
         reader.onloadend = () => {
-            // Store the base64 string directly instead of uploading to Imgur
+            //Base 64 string for image
             resolve(reader.result);
         };
         reader.readAsDataURL(file);
     });
 }
 
+// Function to add song to Firestore
 window.addSong = async function() {
     const songName = document.getElementById("songName").value;
     const songArtist = document.getElementById("songArtist").value;
@@ -41,7 +42,7 @@ window.addSong = async function() {
 
     if (songAlbumCover) {
         try {
-            const albumCoverURL = await uploadToImgur(songAlbumCover);
+            const albumCoverURL = await uploadCover(songAlbumCover);
 
             const docRef = await addDoc(collection(db, "songs"), {
                 songName: songName,
@@ -81,6 +82,7 @@ window.addSong = async function() {
     }
 }
 
+// Function to fetch songs from Firestore
 async function fetchSongs() {
     const querySnapshot = await getDocs(collection(db, "songs"));
     const songList = document.getElementById("songList");
@@ -89,19 +91,19 @@ async function fetchSongs() {
     querySnapshot.forEach((doc) => {
         const songData = doc.data();
         
-        // Create song card
+        // Create song card for display
         const songCard = document.createElement("div");
         songCard.className = "song-card";
         
         // Create and setup image/fallback
         let imageElement;
         if (songData.songAlbumCover && songData.songAlbumCover.startsWith('data:image')) {
-            // If we have a base64 image
+            // Use base64 image to display
             imageElement = new Image();
             imageElement.src = songData.songAlbumCover;
             imageElement.className = "album-cover";
         } else {
-            // Create fallback element
+            // Fallback element
             imageElement = document.createElement("div");
             imageElement.className = "album-cover";
             imageElement.style.backgroundColor = "#333";
@@ -156,6 +158,7 @@ async function fetchSongs() {
     });
 }
 
+// Function to update song details base on the user's input
 window.updateSong = async function(id) {
     try {
         // Get the current song data first
@@ -214,6 +217,7 @@ window.updateSong = async function(id) {
     }
 }
 
+// Function to delete song from Firestore
 window.deleteSong = async function(id) {
     try {
         // Show confirmation dialog
