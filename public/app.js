@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.5.0/firebas
 import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.5.0/firebase-firestore.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyA7z6OZOPCMurxWwpSzkqM5xkSaiqX7__0",
+    apiKey: "GOOGLE_API_KEY",
     authDomain: "mycrudapp-fea97.firebaseapp.com",
     projectId: "mycrudapp-fea97",
     storageBucket: "mycrudapp-fea97.appspot.com",

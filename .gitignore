@@ -84,3 +84,9 @@ node_modules/
 # Misc
 .DS_Store
 ```
+
+# Environment variables
+.env
+*.env
+.env.local
+.env.*.local
